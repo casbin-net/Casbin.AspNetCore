@@ -1,4 +1,4 @@
-﻿using NetCasbin;
+﻿using Casbin;
 
 // ReSharper disable once CheckNamespace
 namespace Casbin.AspNetCore.Authorization

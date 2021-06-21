@@ -3,7 +3,7 @@ using Casbin.AspNetCore.Tests.Utilities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
-using NetCasbin;
+using Casbin;
 
 namespace Casbin.AspNetCore.Tests.Fixtures
 {

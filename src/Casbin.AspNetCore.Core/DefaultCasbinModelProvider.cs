@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
 using Microsoft.Extensions.Options;
-using NetCasbin;
-using NetCasbin.Model;
+using Casbin;
+using Casbin.Model;
 
 namespace Casbin.AspNetCore.Authorization
 {
@@ -10,14 +10,14 @@ namespace Casbin.AspNetCore.Authorization
     {
         private readonly string _fallbackModelPath = "model.conf";
         private readonly IOptions<CasbinAuthorizationOptions> _options;
-        private Model? _model;
+        private IModel? _model;
 
         public DefaultCasbinModelProvider(IOptions<CasbinAuthorizationOptions> options)
         {
             _options = options ?? throw new ArgumentNullException(nameof(options));
         }
 
-        public virtual Model? GetModel()
+        public virtual IModel? GetModel()
         {
             if (_model is not null)
             {
@@ -40,7 +40,7 @@ namespace Casbin.AspNetCore.Authorization
                 throw new FileNotFoundException("Can not find the model file path.", modelPath);
             }
 
-            _model ??= Model.CreateDefaultFromFile(_options.Value.DefaultModelPath);
+            _model ??= DefaultModel.CreateFromFile(_options.Value.DefaultModelPath);
             return _model;
         }
     }

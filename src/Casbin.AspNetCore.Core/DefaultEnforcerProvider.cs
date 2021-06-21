@@ -2,9 +2,9 @@
 using System.IO;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using NetCasbin;
-using NetCasbin.Model;
-using NetCasbin.Persist.FileAdapter;
+using Casbin;
+using Casbin.Model;
+using Casbin.Adapter.File;
 
 namespace Casbin.AspNetCore.Authorization
 {
@@ -37,7 +37,7 @@ namespace Casbin.AspNetCore.Authorization
                 return _enforcer;
             }
 
-            Model? model = _modelProvider.GetModel();
+            IModel? model = _modelProvider.GetModel();
             if (model is null)
             {
                 throw new ArgumentException($"GetModel method of {nameof(ICasbinModelProvider)} can not return null when {nameof(_options.Value.DefaultEnforcerFactory)} option is empty");
@@ -50,7 +50,7 @@ namespace Casbin.AspNetCore.Authorization
                 {
                     throw new FileNotFoundException("Can not find the policy file path.", policyPath);
                 }
-                _enforcer ??= new Enforcer(_modelProvider.GetModel(), new DefaultFileAdapter(policyPath));
+                _enforcer ??= new Enforcer(_modelProvider.GetModel(), new FileAdapter(policyPath));
                 return _enforcer;
             }
 
